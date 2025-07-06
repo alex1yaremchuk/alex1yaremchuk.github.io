@@ -32,6 +32,7 @@
 Она кажется тебе замечательной - без тройника, приятная обмотка. 
 
 [[Начать игру|Первые ощущения]]
+[[В Додзё|Додзё]]
 [[Да ну его|Выход]]</tw-passagedata><tw-passagedata pid="2" name="Знакомство с дедушкой" tags="" position="725,475" size="100,100">(b4r:&quot;none&quot;,&quot;none&quot;,&quot;solid&quot;)+(b4r-colour:white,white,yellow)[Your Text Here]</tw-passagedata><tw-passagedata pid="3" name="Первые ощущения" tags="" position="725,300" size="100,100">Как круто волан летает в помещении! 
 И сам волан у Сергея хороший - не сплющенный, довольно тяжелый, хотя и без камешка внутри. 
 У тебя сразу отлично получается. 
@@ -56,6 +57,34 @@
 
 Ты и дальше занимался линди хопом, но это была совсем другая история..
 
+<tw-passagedata pid="7" name="Додзё" tags="" position="1100,150" size="100,100">
+<div>
+<p>Выберите характеристики:</p>
+<p>Имя: <input id="player-name" value="Игрок"></p>
+<p>Техника: <input type="number" id="player-tech" min="1" max="10" value="5"></p>
+<p>Физика: <input type="number" id="player-phys" min="1" max="10" value="5"></p>
+<p>Разум: <input type="number" id="player-mind" min="1" max="10" value="5"></p>
+<p>Эмоция: <input type="number" id="player-emo" min="1" max="10" value="5"></p>
+<p>Подача: <input type="number" id="player-serve" min="1" max="10" value="5"></p>
+<p>Соперник:
+<select id="opponent-select" onchange="toggleCustom(this.value)">
+<option value="novice">Новичок</option>
+<option value="balanced">Любитель</option>
+<option value="strong">Профи</option>
+<option value="custom">Кастомный</option>
+</select></p>
+<div id="custom-opponent" style="display:none">
+<p>Имя: <input id="opp-name" value="Соперник"></p>
+<p>Техника: <input type="number" id="opp-tech" min="1" max="10" value="5"></p>
+<p>Физика: <input type="number" id="opp-phys" min="1" max="10" value="5"></p>
+<p>Разум: <input type="number" id="opp-mind" min="1" max="10" value="5"></p>
+<p>Эмоция: <input type="number" id="opp-emo" min="1" max="10" value="5"></p>
+<p>Подача: <input type="number" id="opp-serve" min="1" max="10" value="5"></p>
+</div>
+<button onclick="startMatch()">Играть</button>
+<div id="log"></div>
+</div>
+</tw-passagedata>
 Конец!</tw-passagedata><tw-passagedata pid="6" name="Header" tags="header" position="475,25" size="100,100">(text-colour:(hsl:60,0.8039,0.5,0.55))[
 &lt;table&gt;
 &lt;tr&gt;&lt;td&gt;Время: &lt;/td&gt;&lt;td&gt;Год 1 из 10&lt;/td&gt;   
@@ -91,5 +120,33 @@ h(Math,"atanh",xr.atanh,Math.atanh(1e-300)===0);h(Math,"tanh",xr.tanh,Math.tanh(
 ;require("harlowe")}());
 </script>
 
+<script>
+const opponents = {
+  novice: {name: 'Новичок', technique:3, mind:3, physique:3, emotion:3, serve:3},
+  balanced: {name: 'Любитель', technique:5, mind:5, physique:5, emotion:5, serve:5},
+  strong: {name: 'Профи', technique:8, mind:8, physique:8, emotion:8, serve:8}
+};
+function getPlayer(prefix) {
+  return {
+    name: document.getElementById(prefix + 'name').value,
+    technique: +document.getElementById(prefix + 'tech').value,
+    mind: +document.getElementById(prefix + 'mind').value,
+    physique: +document.getElementById(prefix + 'phys').value,
+    emotion: +document.getElementById(prefix + 'emo').value,
+    serve: +document.getElementById(prefix + 'serve').value
+  };
+}
+function toggleCustom(val) {
+  document.getElementById('custom-opponent').style.display = val === 'custom' ? 'block' : 'none';
+}
+function startMatch() {
+  const player = getPlayer('player-');
+  const sel = document.getElementById('opponent-select').value;
+  const opponent = sel === 'custom' ? getPlayer('opp-') : opponents[sel];
+  const logger = new engine.HtmlLogger(new Set(['game','match','rally']), 'ru');
+  engine.simulateMatch(player, opponent, logger);
+  document.getElementById('log').innerHTML = logger.toHtml();
+}
+</script>
 </body>
 </html>
