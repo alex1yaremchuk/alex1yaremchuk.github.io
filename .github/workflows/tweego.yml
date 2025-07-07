@@ -2,6 +2,8 @@ name: Build index
 
 on:
   push:
+    branches:
+      - main
     paths:
       - index.twee
   workflow_dispatch:
