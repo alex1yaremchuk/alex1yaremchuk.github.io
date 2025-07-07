@@ -185,7 +185,7 @@ console.log("определили runMatch");</script><tw-tag name="mzh-start" c
 Ты и дальше занимался линди хопом, но это была совсем другая история..
 
 Конец!</tw-passagedata><tw-passagedata pid="5" name="Додзё" tags="" position="925,150" size="100,100">&#39;&#39;Настройки игрока&#39;&#39;
-Имя: &lt;&lt;textbox &quot;$player.name&quot;&gt;&gt;
+Имя: &lt;&lt;textbox &quot;$player.name&quot; $player.name&gt;&gt;
 Техника: &lt;&lt;numberbox &quot;$player.technique&quot; 5&gt;&gt;
 Разум: &lt;&lt;numberbox &quot;$player.mind&quot; 5&gt;&gt;
 Физика: &lt;&lt;numberbox &quot;$player.physique&quot; 5&gt;&gt;
@@ -193,7 +193,7 @@ console.log("определили runMatch");</script><tw-tag name="mzh-start" c
 Подача: &lt;&lt;numberbox &quot;$player.serve&quot; 4&gt;&gt;
 
 &#39;&#39;Настройки соперника&#39;&#39;
-Имя: &lt;&lt;textbox &quot;$opponent.name&quot;&gt;&gt;
+Имя: &lt;&lt;textbox &quot;$opponent.name&quot; $opponent.name&gt;&gt;
 Техника: &lt;&lt;numberbox &quot;$opponent.technique&quot; 6&gt;&gt;
 Разум: &lt;&lt;numberbox &quot;$opponent.mind&quot; 5&gt;&gt;
 Физика: &lt;&lt;numberbox &quot;$opponent.physique&quot; 6&gt;&gt;
@@ -201,11 +201,11 @@ console.log("определили runMatch");</script><tw-tag name="mzh-start" c
 Подача: &lt;&lt;numberbox &quot;$opponent.serve&quot; 4&gt;&gt;
 
 &#39;&#39;Логирование&#39;&#39;
-&lt;&lt;checkbox &quot;$logMatch&quot; true&gt;&gt; Матч\
-&lt;&lt;checkbox &quot;$logGame&quot; true&gt;&gt; Гейм\
-&lt;&lt;checkbox &quot;$logRally&quot; true&gt;&gt; Розыгрыш\
-&lt;&lt;checkbox &quot;$logRallyDetailed&quot; false&gt;&gt; Подробно\
-&lt;&lt;checkbox &quot;$logDebug&quot; false&gt;&gt; Отладка
+&lt;&lt;checkbox &quot;$logMatch&quot; false true autocheck&gt;&gt; Матч\
+&lt;&lt;checkbox &quot;$logGame&quot; false true autocheck&gt;&gt; Гейм\
+&lt;&lt;checkbox &quot;$logRally&quot; false true autocheck&gt;&gt; Розыгрыш\
+&lt;&lt;checkbox &quot;$logRallyDetailed&quot; false true autocheck&gt;&gt; Подробно\
+&lt;&lt;checkbox &quot;$logDebug&quot; false true autocheck&gt;&gt; Отладка
 
 &lt;&lt;button &quot;Запустить матч&quot;&gt;&gt;
 &lt;&lt;run runMatch()&gt;&gt;
