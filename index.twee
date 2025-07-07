@@ -172,8 +172,6 @@ window.bob = {
   serve: 4
 };
 
-console.log("инициализировали игроков");
-
 window.runMatch = function () {
   console.log("🔧 runMatch() called");
 
@@ -193,6 +191,4 @@ window.runMatch = function () {
   State.variables.htmlLog = logger.toHtml();
   State.variables.winner = result.winner.name;
 };
-
-console.log("определили runMatch");
 
