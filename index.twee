@@ -182,7 +182,7 @@ window.runMatch = function () {
   if (State.variables.logRallyDetailed) levels.add("rallyDetailed");
   if (State.variables.logDebug) levels.add("debug");
 
-  const logger = new window.engine.HtmlLogger(levels, "ru");
+  const logger = new window.engine.ConsoleLogger(levels, "ru");
 
   const playerA = Object.assign({}, State.variables.player);
   const playerB = Object.assign({}, State.variables.opponent);
