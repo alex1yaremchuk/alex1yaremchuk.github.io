@@ -22,8 +22,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check tweego exists
-        run: if not exist tweego\tweego.exe exit 1
+      - name: Ensure tweego exists
+        run: |
+          if (-not (Test-Path "tweego/tweego.exe")) {
+            Write-Error "tweego.exe not found!"
+            exit 1
+          }
 
       - name: Generate index.html
         run: .\tweego\tweego.exe index.twee -o index.html
