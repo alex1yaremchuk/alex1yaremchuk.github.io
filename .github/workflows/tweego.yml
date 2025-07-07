@@ -8,6 +8,8 @@ on:
 
 permissions:
   contents: write
+  pages: write         # ← обязательно для deploy-pages
+  id-token: write      # ← обязательно для deploy-pages
 
 jobs:
   build:
@@ -36,3 +38,14 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit 0 }
           git push --no-verify
           git status
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: '.'  # Путь к index.html, если он в корне
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2
