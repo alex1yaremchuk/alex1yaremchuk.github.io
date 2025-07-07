@@ -104,7 +104,14 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<!-- UUID://B6C03AF5-4180-4B4C-9D4A-321F6E4D4234// --><tw-storydata name="Бадминтон. Питер." startnode="7" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="B6C03AF5-4180-4B4C-9D4A-321F6E4D4234" zoom="1" format="SugarCube" format-version="2.37.3" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript">var s = document.createElement("script");
+        <!-- UUID://B6C03AF5-4180-4B4C-9D4A-321F6E4D4234// --><tw-storydata name="Бадминтон. Питер." startnode="7" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="B6C03AF5-4180-4B4C-9D4A-321F6E4D4234" zoom="1" format="SugarCube" format-version="2.37.3" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">
+        .layout{display:flex;gap:20px;}
+        .config{flex:0 0 300px;}
+        .output{flex:1;}
+        .inputs td:first-child{padding-right:10px;text-align:right;}
+        .inputs input[type="text"]{width:150px;}
+        .checks label{display:block;margin-bottom:5px;}
+        </style><script role="script" id="twine-user-script" type="text/twine-javascript">var s = document.createElement("script");
 s.src = "engine.js";
 s.defer = true;
 document.head.appendChild(s);
@@ -150,8 +157,8 @@ window.runMatch = function () {
 &lt;&lt;set $logMatch to true&gt;&gt;
 &lt;&lt;set $logGame to true&gt;&gt;
 &lt;&lt;set $logRally to true&gt;&gt;
-&lt;&lt;set $logRallyDetailed to false&gt;&gt;
-&lt;&lt;set $logDebug to false&gt;&gt;
+&lt;&lt;set $logRallyDetailed to true&gt;&gt;
+&lt;&lt;set $logDebug to true&gt;&gt;
 &lt;&lt;set $winner to &quot;&quot;&gt;&gt;
 &lt;&lt;set $htmlLog to &quot;&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Header" tags="header" position="475,25" size="100,100">(text-colour:(hsl:60,0.8039,0.5,0.55))[
 &lt;table&gt;
@@ -177,39 +184,47 @@ window.runMatch = function () {
 
 Ты и дальше занимался линди хопом, но это была совсем другая история..
 
-Конец!</tw-passagedata><tw-passagedata pid="5" name="Додзё" tags="" position="925,150" size="100,100">&#39;&#39;Настройки игрока&#39;&#39;
-Имя: &lt;&lt;textbox &quot;$player.name&quot; $player.name&gt;&gt;
-Техника: &lt;&lt;numberbox &quot;$player.technique&quot; 5&gt;&gt;
-Разум: &lt;&lt;numberbox &quot;$player.mind&quot; 5&gt;&gt;
-Физика: &lt;&lt;numberbox &quot;$player.physique&quot; 5&gt;&gt;
-Эмоции: &lt;&lt;numberbox &quot;$player.emotion&quot; 5&gt;&gt;
-Подача: &lt;&lt;numberbox &quot;$player.serve&quot; 4&gt;&gt;
-
-&#39;&#39;Настройки соперника&#39;&#39;
-Имя: &lt;&lt;textbox &quot;$opponent.name&quot; $opponent.name&gt;&gt;
-Техника: &lt;&lt;numberbox &quot;$opponent.technique&quot; 6&gt;&gt;
-Разум: &lt;&lt;numberbox &quot;$opponent.mind&quot; 5&gt;&gt;
-Физика: &lt;&lt;numberbox &quot;$opponent.physique&quot; 6&gt;&gt;
-Эмоции: &lt;&lt;numberbox &quot;$opponent.emotion&quot; 5&gt;&gt;
-Подача: &lt;&lt;numberbox &quot;$opponent.serve&quot; 4&gt;&gt;
-
-&#39;&#39;Логирование&#39;&#39;
-&lt;&lt;checkbox &quot;$logMatch&quot; false true autocheck&gt;&gt; Матч\
-&lt;&lt;checkbox &quot;$logGame&quot; false true autocheck&gt;&gt; Гейм\
-&lt;&lt;checkbox &quot;$logRally&quot; false true autocheck&gt;&gt; Розыгрыш\
-&lt;&lt;checkbox &quot;$logRallyDetailed&quot; false true autocheck&gt;&gt; Подробно\
-&lt;&lt;checkbox &quot;$logDebug&quot; false true autocheck&gt;&gt; Отладка
-
-&lt;&lt;button &quot;Запустить матч&quot;&gt;&gt;
-&lt;&lt;run runMatch()&gt;&gt;
-&lt;&lt;/button&gt;&gt;
-
-&lt;&lt;if $winner&gt;&gt;
-Победитель: &lt;&lt;= $winner&gt;&gt;
-&lt;&lt;/if&gt;&gt;
-&lt;&lt;if $htmlLog&gt;&gt;
-&lt;div class=&quot;log&quot;&gt;&lt;&lt;= $htmlLog&gt;&gt;&lt;/div&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Знакомство с дедушкой" tags="" position="725,475" size="100,100">(b4r:&quot;none&quot;,&quot;none&quot;,&quot;solid&quot;)+(b4r-colour:white,white,yellow)[Your Text Here]</tw-passagedata><tw-passagedata pid="7" name="Можайка.. Лохматые годы.." tags="mzh-start" position="725,150" size="100,100">&lt;!--Разбить эту комнату на несколько
+Конец!</tw-passagedata><tw-passagedata pid="5" name="Додзё" tags="" position="925,150" size="100,100"><div class="layout">
+  <div class="config">
+    &#39;&#39;Настройки игрока&#39;&#39;
+    <table class="inputs">
+      <tr><td>Имя:</td><td>&lt;&lt;textbox &quot;$player.name&quot; $player.name&gt;&gt;</td></tr>
+      <tr><td>Техника:</td><td>&lt;&lt;numberbox &quot;$player.technique&quot; 5&gt;&gt;</td></tr>
+      <tr><td>Разум:</td><td>&lt;&lt;numberbox &quot;$player.mind&quot; 5&gt;&gt;</td></tr>
+      <tr><td>Физика:</td><td>&lt;&lt;numberbox &quot;$player.physique&quot; 5&gt;&gt;</td></tr>
+      <tr><td>Эмоции:</td><td>&lt;&lt;numberbox &quot;$player.emotion&quot; 5&gt;&gt;</td></tr>
+      <tr><td>Подача:</td><td>&lt;&lt;numberbox &quot;$player.serve&quot; 4&gt;&gt;</td></tr>
+    </table>
+    &#39;&#39;Настройки соперника&#39;&#39;
+    <table class="inputs">
+      <tr><td>Имя:</td><td>&lt;&lt;textbox &quot;$opponent.name&quot; $opponent.name&gt;&gt;</td></tr>
+      <tr><td>Техника:</td><td>&lt;&lt;numberbox &quot;$opponent.technique&quot; 6&gt;&gt;</td></tr>
+      <tr><td>Разум:</td><td>&lt;&lt;numberbox &quot;$opponent.mind&quot; 5&gt;&gt;</td></tr>
+      <tr><td>Физика:</td><td>&lt;&lt;numberbox &quot;$opponent.physique&quot; 6&gt;&gt;</td></tr>
+      <tr><td>Эмоции:</td><td>&lt;&lt;numberbox &quot;$opponent.emotion&quot; 5&gt;&gt;</td></tr>
+      <tr><td>Подача:</td><td>&lt;&lt;numberbox &quot;$opponent.serve&quot; 4&gt;&gt;</td></tr>
+    </table>
+    &#39;&#39;Логирование&#39;&#39;
+    <div class="checks">
+      <label>&lt;&lt;checkbox &quot;$logMatch&quot; false true autocheck&gt;&gt; Матч</label>
+      <label>&lt;&lt;checkbox &quot;$logGame&quot; false true autocheck&gt;&gt; Гейм</label>
+      <label>&lt;&lt;checkbox &quot;$logRally&quot; false true autocheck&gt;&gt; Розыгрыш</label>
+      <label>&lt;&lt;checkbox &quot;$logRallyDetailed&quot; false true autocheck&gt;&gt; Подробно</label>
+      <label>&lt;&lt;checkbox &quot;$logDebug&quot; false true autocheck&gt;&gt; Отладка</label>
+    </div>
+    &lt;&lt;button &quot;Запустить матч&quot;&gt;&gt;
+    &lt;&lt;run runMatch()&gt;&gt;
+    &lt;&lt;/button&gt;&gt;
+  </div>
+  <div class="output">
+    &lt;&lt;if $winner&gt;&gt;
+    Победитель: &lt;&lt;= $winner&gt;&gt;
+    &lt;&lt;/if&gt;&gt;
+    &lt;&lt;if $htmlLog&gt;&gt;
+    <div class="log">&lt;&lt;= $htmlLog&gt;&gt;</div>
+    &lt;&lt;/if&gt;&gt;
+  </div>
+</div></tw-passagedata><tw-passagedata pid="6" name="Знакомство с дедушкой" tags="" position="725,475" size="100,100">(b4r:&quot;none&quot;,&quot;none&quot;,&quot;solid&quot;)+(b4r-colour:white,white,yellow)[Your Text Here]</tw-passagedata><tw-passagedata pid="7" name="Можайка.. Лохматые годы.." tags="mzh-start" position="725,150" size="100,100">&lt;!--Разбить эту комнату на несколько
  * заход в зал
  * посмотреть вокруг--&gt;
 
