@@ -104,7 +104,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<!-- UUID://B6C03AF5-4180-4B4C-9D4A-321F6E4D4234// --><tw-storydata name="Бадминтон. Питер." startnode="6" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="B6C03AF5-4180-4B4C-9D4A-321F6E4D4234" zoom="1" format="SugarCube" format-version="2.37.3" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript">console.log("загружаем что-то там");
+	<!-- UUID://B6C03AF5-4180-4B4C-9D4A-321F6E4D4234// --><tw-storydata name="Бадминтон. Питер." startnode="7" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="B6C03AF5-4180-4B4C-9D4A-321F6E4D4234" zoom="1" format="SugarCube" format-version="2.37.3" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript">console.log("загружаем что-то там");
 var s = document.createElement("script");
 s.src = "engine.js";
 s.defer = true;
@@ -135,16 +135,32 @@ console.log("инициализировали игроков");
 window.runMatch = function () {
   console.log("🔧 runMatch() called");
 
-  const logger = new window.engine.ConsoleLogger(
-    new Set(["match", "game", "rally"])
-  );
+  const levels = new Set();
+  if (State.variables.logMatch) levels.add("match");
+  if (State.variables.logGame) levels.add("game");
+  if (State.variables.logRally) levels.add("rally");
+  if (State.variables.logRallyDetailed) levels.add("rallyDetailed");
+  if (State.variables.logDebug) levels.add("debug");
 
-  const result = window.engine.simulateMatch(window.alice, window.bob, logger);
-  State.variables.matchLog = result.log;
-  State.variables.winner = result.winner;
+  const logger = new window.engine.HtmlLogger(levels, "ru");
+
+  const playerA = Object.assign({}, State.variables.player);
+  const playerB = Object.assign({}, State.variables.opponent);
+
+  const result = window.engine.simulateMatch(playerA, playerB, logger);
+  State.variables.htmlLog = logger.toHtml();
+  State.variables.winner = result.winner.name;
 };
 
-console.log("определили runMatch");</script><tw-tag name="mzh-start" color="yellow"></tw-tag><tw-passagedata pid="1" name="Header" tags="header" position="475,25" size="100,100">(text-colour:(hsl:60,0.8039,0.5,0.55))[
+console.log("определили runMatch");</script><tw-tag name="mzh-start" color="yellow"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="" position="100,100" size="100,100">&lt;&lt;set $player to {&quot;name&quot;:&quot;Alice&quot;,&quot;technique&quot;:5,&quot;mind&quot;:6,&quot;physique&quot;:5,&quot;emotion&quot;:5,&quot;serve&quot;:4}&gt;&gt;
+&lt;&lt;set $opponent to {&quot;name&quot;:&quot;Bob&quot;,&quot;technique&quot;:6,&quot;mind&quot;:5,&quot;physique&quot;:6,&quot;emotion&quot;:5,&quot;serve&quot;:4}&gt;&gt;
+&lt;&lt;set $logMatch to true&gt;&gt;
+&lt;&lt;set $logGame to true&gt;&gt;
+&lt;&lt;set $logRally to true&gt;&gt;
+&lt;&lt;set $logRallyDetailed to false&gt;&gt;
+&lt;&lt;set $logDebug to false&gt;&gt;
+&lt;&lt;set $winner to &quot;&quot;&gt;&gt;
+&lt;&lt;set $htmlLog to &quot;&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Header" tags="header" position="475,25" size="100,100">(text-colour:(hsl:60,0.8039,0.5,0.55))[
 &lt;table&gt;
 &lt;tr&gt;&lt;td&gt;Время: &lt;/td&gt;&lt;td&gt;Год 1 из 10&lt;/td&gt;   
 		&lt;td&gt;Подача-прием: &lt;/td&gt;&lt;td&gt;1 из 10&lt;/td&gt;
@@ -157,24 +173,50 @@ console.log("определили runMatch");</script><tw-tag name="mzh-start" c
 &lt;/tr&gt;
 &lt;/table&gt;
 
-]</tw-passagedata><tw-passagedata pid="2" name="Выход" tags="" position="850,25" size="100,100">Зал тебя не впечатлил.. 
+]</tw-passagedata><tw-passagedata pid="3" name="Выход" tags="" position="850,25" size="100,100">Зал тебя не впечатлил.. 
 Плесень в раздевалке, синий крашеный пол. 
 Здесь недолго поскользнуться и подвернуть ногу. 
 
 Новую ракетку ты иногда используешь летом, но редко. 
 
-Конец!</tw-passagedata><tw-passagedata pid="3" name="Выход отказ от дедушки" tags="" position="900,300" size="100,100">Хорошо поиграли! 
+Конец!</tw-passagedata><tw-passagedata pid="4" name="Выход отказ от дедушки" tags="" position="900,300" size="100,100">Хорошо поиграли! 
 Но продолжения этот поход не имел. 
 
 Ты и дальше занимался линди хопом, но это была совсем другая история..
 
-Конец!</tw-passagedata><tw-passagedata pid="4" name="Додзё" tags="" position="925,150" size="100,100">&lt;&lt;button &quot;Запустить матч&quot;&gt;&gt;
+Конец!</tw-passagedata><tw-passagedata pid="5" name="Додзё" tags="" position="925,150" size="100,100">&#39;&#39;Настройки игрока&#39;&#39;
+Имя: &lt;&lt;textbox &quot;$player.name&quot;&gt;&gt;
+Техника: &lt;&lt;numberbox &quot;$player.technique&quot; 5&gt;&gt;
+Разум: &lt;&lt;numberbox &quot;$player.mind&quot; 5&gt;&gt;
+Физика: &lt;&lt;numberbox &quot;$player.physique&quot; 5&gt;&gt;
+Эмоции: &lt;&lt;numberbox &quot;$player.emotion&quot; 5&gt;&gt;
+Подача: &lt;&lt;numberbox &quot;$player.serve&quot; 4&gt;&gt;
+
+&#39;&#39;Настройки соперника&#39;&#39;
+Имя: &lt;&lt;textbox &quot;$opponent.name&quot;&gt;&gt;
+Техника: &lt;&lt;numberbox &quot;$opponent.technique&quot; 6&gt;&gt;
+Разум: &lt;&lt;numberbox &quot;$opponent.mind&quot; 5&gt;&gt;
+Физика: &lt;&lt;numberbox &quot;$opponent.physique&quot; 6&gt;&gt;
+Эмоции: &lt;&lt;numberbox &quot;$opponent.emotion&quot; 5&gt;&gt;
+Подача: &lt;&lt;numberbox &quot;$opponent.serve&quot; 4&gt;&gt;
+
+&#39;&#39;Логирование&#39;&#39;
+&lt;&lt;checkbox &quot;$logMatch&quot; true&gt;&gt; Матч\
+&lt;&lt;checkbox &quot;$logGame&quot; true&gt;&gt; Гейм\
+&lt;&lt;checkbox &quot;$logRally&quot; true&gt;&gt; Розыгрыш\
+&lt;&lt;checkbox &quot;$logRallyDetailed&quot; false&gt;&gt; Подробно\
+&lt;&lt;checkbox &quot;$logDebug&quot; false&gt;&gt; Отладка
+
+&lt;&lt;button &quot;Запустить матч&quot;&gt;&gt;
 &lt;&lt;run runMatch()&gt;&gt;
 &lt;&lt;/button&gt;&gt;
 
-&lt;&lt;if $matchLog&gt;&gt;
-&lt;pre&gt;&lt;&lt;print $matchLog.join(&quot;\n&quot;)&gt;&gt;&lt;/pre&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="Знакомство с дедушкой" tags="" position="725,475" size="100,100">(b4r:&quot;none&quot;,&quot;none&quot;,&quot;solid&quot;)+(b4r-colour:white,white,yellow)[Your Text Here]</tw-passagedata><tw-passagedata pid="6" name="Можайка.. Лохматые годы.." tags="mzh-start" position="725,150" size="100,100">&lt;!--Разбить эту комнату на несколько
+&lt;&lt;if $winner&gt;&gt;
+Победитель: &lt;&lt;= $winner&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;if $htmlLog&gt;&gt;
+&lt;div class=&quot;log&quot;&gt;&lt;&lt;= $htmlLog&gt;&gt;&lt;/div&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Знакомство с дедушкой" tags="" position="725,475" size="100,100">(b4r:&quot;none&quot;,&quot;none&quot;,&quot;solid&quot;)+(b4r-colour:white,white,yellow)[Your Text Here]</tw-passagedata><tw-passagedata pid="7" name="Можайка.. Лохматые годы.." tags="mzh-start" position="725,150" size="100,100">&lt;!--Разбить эту комнату на несколько
  * заход в зал
  * посмотреть вокруг--&gt;
 
@@ -196,7 +238,7 @@ console.log("определили runMatch");</script><tw-tag name="mzh-start" c
 
 [[Начать игру|Первые ощущения]]
 [[В Додзё|Додзё]]
-[[Да ну его|Выход]]</tw-passagedata><tw-passagedata pid="7" name="Первые ощущения" tags="" position="725,300" size="100,100">Как круто волан летает в помещении! 
+[[Да ну его|Выход]]</tw-passagedata><tw-passagedata pid="8" name="Первые ощущения" tags="" position="725,300" size="100,100">Как круто волан летает в помещении! 
 И сам волан у Сергея хороший - не сплющенный, довольно тяжелый, хотя и без камешка внутри. 
 У тебя сразу отлично получается. 
 
