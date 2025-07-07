@@ -130,8 +130,6 @@ window.bob = {
   serve: 4
 };
 
-console.log("инициализировали игроков");
-
 window.runMatch = function () {
   console.log("🔧 runMatch() called");
 
@@ -150,9 +148,7 @@ window.runMatch = function () {
   const result = window.engine.simulateMatch(playerA, playerB, logger);
   State.variables.htmlLog = logger.toHtml();
   State.variables.winner = result.winner.name;
-};
-
-console.log("определили runMatch");</script><tw-tag name="mzh-start" color="yellow"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="" position="100,100" size="100,100">&lt;&lt;set $player to {&quot;name&quot;:&quot;Alice&quot;,&quot;technique&quot;:5,&quot;mind&quot;:6,&quot;physique&quot;:5,&quot;emotion&quot;:5,&quot;serve&quot;:4}&gt;&gt;
+};</script><tw-tag name="mzh-start" color="yellow"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="" position="100,100" size="100,100">&lt;&lt;set $player to {&quot;name&quot;:&quot;Alice&quot;,&quot;technique&quot;:5,&quot;mind&quot;:6,&quot;physique&quot;:5,&quot;emotion&quot;:5,&quot;serve&quot;:4}&gt;&gt;
 &lt;&lt;set $opponent to {&quot;name&quot;:&quot;Bob&quot;,&quot;technique&quot;:6,&quot;mind&quot;:5,&quot;physique&quot;:6,&quot;emotion&quot;:5,&quot;serve&quot;:4}&gt;&gt;
 &lt;&lt;set $logMatch to true&gt;&gt;
 &lt;&lt;set $logGame to true&gt;&gt;
