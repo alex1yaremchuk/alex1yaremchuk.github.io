@@ -63,7 +63,7 @@
 
 :: Додзё {"position":"925,150","size":"100,100"}
 ''Настройки игрока''
-Имя: <<textbox "$player.name">>
+Имя: <<textbox "$player.name" $player.name>>
 Техника: <<numberbox "$player.technique" 5>>
 Разум: <<numberbox "$player.mind" 5>>
 Физика: <<numberbox "$player.physique" 5>>
@@ -71,7 +71,7 @@
 Подача: <<numberbox "$player.serve" 4>>
 
 ''Настройки соперника''
-Имя: <<textbox "$opponent.name">>
+Имя: <<textbox "$opponent.name" $opponent.name>>
 Техника: <<numberbox "$opponent.technique" 6>>
 Разум: <<numberbox "$opponent.mind" 5>>
 Физика: <<numberbox "$opponent.physique" 6>>
@@ -79,11 +79,11 @@
 Подача: <<numberbox "$opponent.serve" 4>>
 
 ''Логирование''
-<<checkbox "$logMatch" true>> Матч\
-<<checkbox "$logGame" true>> Гейм\
-<<checkbox "$logRally" true>> Розыгрыш\
-<<checkbox "$logRallyDetailed" false>> Подробно\
-<<checkbox "$logDebug" false>> Отладка
+<<checkbox "$logMatch" false true autocheck>> Матч\
+<<checkbox "$logGame" false true autocheck>> Гейм\
+<<checkbox "$logRally" false true autocheck>> Розыгрыш\
+<<checkbox "$logRallyDetailed" false true autocheck>> Подробно\
+<<checkbox "$logDebug" false true autocheck>> Отладка
 
 <<button "Запустить матч">>
 <<run runMatch()>>
