@@ -151,8 +151,6 @@ s.src = "engine.js";
 s.defer = true;
 document.head.appendChild(s);
 
-console.log("загрузили");
-
 window.alice = {
   name: "Alice",
   technique: 5,
