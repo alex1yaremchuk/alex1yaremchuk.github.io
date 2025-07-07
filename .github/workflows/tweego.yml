@@ -1,4 +1,5 @@
 name: Build index
+
 on:
   push:
     paths:
@@ -7,6 +8,9 @@ on:
     paths:
       - index.twee
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -17,13 +21,18 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Check tweego exists
+        run: if not exist tweego\tweego.exe exit 1
+
       - name: Generate index.html
-        run: ./tweego/tweego.exe index.twee -o index.html
+        run: .\tweego\tweego.exe index.twee -o index.html
+
       - name: Commit build
-        if: github.event_name == 'push'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add index.html
           git commit -m "Auto build index.html" || exit 0
-          git push
+          git push --no-verify
+          git status
