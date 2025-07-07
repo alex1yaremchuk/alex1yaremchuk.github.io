@@ -1,0 +1,29 @@
+name: Build index
+on:
+  push:
+    paths:
+      - index.twee
+  pull_request:
+    paths:
+      - index.twee
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    if: |
+      github.event_name != 'pull_request' || github.event.pull_request.merged == true
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Generate index.html
+        run: ./tweego/tweego.exe index.twee -o index.html
+      - name: Commit build
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add index.html
+          git commit -m "Auto build index.html" || exit 0
+          git push
