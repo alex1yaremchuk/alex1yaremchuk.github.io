@@ -193,7 +193,12 @@ $(document).on("input", "input[type=number]", function () {
     &quot;emotion&quot;: 5,
     &quot;serve&quot;: 4
   }&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Header" tags="header" position="475,25" size="100,100">(text-colour:(hsl:60,0.8039,0.5,0.55))[
+&lt;&lt;/if&gt;&gt;
+
+&lt;&lt;script&gt;&gt;
+console.log(&quot;STORY INIT — player?&quot;, typeof $player, $player);
+console.log(&quot;AUTOSAVE RAW&quot;, localStorage.getItem(&quot;Twine.autosave&quot;));
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Header" tags="header" position="475,25" size="100,100">(text-colour:(hsl:60,0.8039,0.5,0.55))[
 &lt;table&gt;
 &lt;tr&gt;&lt;td&gt;Время: &lt;/td&gt;&lt;td&gt;Год 1 из 10&lt;/td&gt;   
 		&lt;td&gt;Подача-прием: &lt;/td&gt;&lt;td&gt;1 из 10&lt;/td&gt;
