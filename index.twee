@@ -70,22 +70,22 @@
         ''Игрок''
         <table class="inputs">
           <tr><td>Имя</td><td><<textbox "$player.name" $player.name>></td></tr>
-          <tr><td>Тех</td><td><<numberbox "$player.technique" 5>></td></tr>
-          <tr><td>Раз</td><td><<numberbox "$player.mind" 5>></td></tr>
-          <tr><td>Физ</td><td><<numberbox "$player.physique" 5>></td></tr>
-          <tr><td>Эмо</td><td><<numberbox "$player.emotion" 5>></td></tr>
-          <tr><td>Под</td><td><<numberbox "$player.serve" 4>></td></tr>
+          <tr><td>Тех</td><td><<numberbox "$player.technique" $player.technique>></td></tr>
+          <tr><td>Раз</td><td><<numberbox "$player.mind" $player.mind>></td></tr>
+          <tr><td>Физ</td><td><<numberbox "$player.physique" $player.physique>></td></tr>
+          <tr><td>Эмо</td><td><<numberbox "$player.emotion" $player.emotion>></td></tr>
+          <tr><td>Под</td><td><<numberbox "$player.serve" $player.serve>></td></tr>
         </table>
       </div>
       <div class="player">
         ''Соперник''
         <table class="inputs">
           <tr><td>Имя</td><td><<textbox "$opponent.name" $opponent.name>></td></tr>
-          <tr><td>Тех</td><td><<numberbox "$opponent.technique" 6>></td></tr>
-          <tr><td>Раз</td><td><<numberbox "$opponent.mind" 5>></td></tr>
-          <tr><td>Физ</td><td><<numberbox "$opponent.physique" 6>></td></tr>
-          <tr><td>Эмо</td><td><<numberbox "$opponent.emotion" 5>></td></tr>
-          <tr><td>Под</td><td><<numberbox "$opponent.serve" 4>></td></tr>
+          <tr><td>Тех</td><td><<numberbox "$opponent.technique" $opponent.technique>></td></tr>
+          <tr><td>Раз</td><td><<numberbox "$opponent.mind" $opponent.mind>></td></tr>
+          <tr><td>Физ</td><td><<numberbox "$opponent.physique" $opponent.physique>></td></tr>
+          <tr><td>Эмо</td><td><<numberbox "$opponent.emotion" $opponent.emotion>></td></tr>
+          <tr><td>Под</td><td><<numberbox "$opponent.serve" $opponent.serve>></td></tr>
         </table>
       </div>
     </div>
