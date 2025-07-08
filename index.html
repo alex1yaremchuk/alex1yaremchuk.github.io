@@ -109,7 +109,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
   gap: 20px;
 }
 .config {
-  flex: 0 0 300px;
+  flex: 0 0 400px;
 }
 .output {
   flex: 1;
@@ -118,16 +118,46 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
   padding-right: 10px;
   text-align: right;
 }
-.inputs input[type="text"] {
-  width: 150px;
+.inputs input[type="text"],
+.inputs input[type="number"] {
+  width: 60px;
+}
+.players {
+  display: flex;
+  gap: 20px;
+}
+.player {
+  flex: 1;
 }
 .checks label {
-  display: block;
-  margin-bottom: 5px;
+  display: inline-block;
+  margin-right: 10px;
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">var s = document.createElement("script");
 s.src = "engine.js";
 s.defer = true;
 document.head.appendChild(s);
+
+window.loadSettings = function () {
+  try {
+    const p = JSON.parse(localStorage.getItem("playerSettings"));
+    if (p) Object.assign(State.variables.player, p);
+    const o = JSON.parse(localStorage.getItem("opponentSettings"));
+    if (o) Object.assign(State.variables.opponent, o);
+  } catch (e) {}
+};
+
+window.saveSettings = function () {
+  try {
+    localStorage.setItem(
+      "playerSettings",
+      JSON.stringify(State.variables.player)
+    );
+    localStorage.setItem(
+      "opponentSettings",
+      JSON.stringify(State.variables.opponent)
+    );
+  } catch (e) {}
+};
 
 window.alice = {
   name: "Alice",
@@ -163,6 +193,7 @@ window.runMatch = function () {
   const result = window.engine.simulateMatch(playerA, playerB, logger);
   State.variables.htmlLog = logger.toHtml();
   State.variables.winner = result.winner.name;
+  saveSettings();
 };</script><tw-tag name="mzh-start" color="yellow"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="" position="100,100" size="100,100">&lt;&lt;set $player to {&quot;name&quot;:&quot;Alice&quot;,&quot;technique&quot;:5,&quot;mind&quot;:6,&quot;physique&quot;:5,&quot;emotion&quot;:5,&quot;serve&quot;:4}&gt;&gt;
 &lt;&lt;set $opponent to {&quot;name&quot;:&quot;Bob&quot;,&quot;technique&quot;:6,&quot;mind&quot;:5,&quot;physique&quot;:6,&quot;emotion&quot;:5,&quot;serve&quot;:4}&gt;&gt;
 &lt;&lt;set $logMatch to true&gt;&gt;
@@ -171,7 +202,8 @@ window.runMatch = function () {
 &lt;&lt;set $logRallyDetailed to true&gt;&gt;
 &lt;&lt;set $logDebug to true&gt;&gt;
 &lt;&lt;set $winner to &quot;&quot;&gt;&gt;
-&lt;&lt;set $htmlLog to &quot;&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Header" tags="header" position="475,25" size="100,100">(text-colour:(hsl:60,0.8039,0.5,0.55))[
+&lt;&lt;set $htmlLog to &quot;&quot;&gt;&gt;
+&lt;&lt;run loadSettings()&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Header" tags="header" position="475,25" size="100,100">(text-colour:(hsl:60,0.8039,0.5,0.55))[
 &lt;table&gt;
 &lt;tr&gt;&lt;td&gt;Время: &lt;/td&gt;&lt;td&gt;Год 1 из 10&lt;/td&gt;   
 		&lt;td&gt;Подача-прием: &lt;/td&gt;&lt;td&gt;1 из 10&lt;/td&gt;
@@ -197,25 +229,30 @@ window.runMatch = function () {
 
 Конец!</tw-passagedata><tw-passagedata pid="5" name="Додзё" tags="" position="925,150" size="100,100">&lt;div class=&quot;layout&quot;&gt;
   &lt;div class=&quot;config&quot;&gt;
-    &#39;&#39;Настройки игрока&#39;&#39;
-    &lt;table class=&quot;inputs&quot;&gt;
-      &lt;tr&gt;&lt;td&gt;Имя:&lt;/td&gt;&lt;td&gt;&lt;&lt;textbox &quot;$player.name&quot; $player.name&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;Техника:&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$player.technique&quot; 5&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;Разум:&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$player.mind&quot; 5&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;Физика:&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$player.physique&quot; 5&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;Эмоции:&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$player.emotion&quot; 5&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;Подача:&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$player.serve&quot; 4&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;
-    &#39;&#39;Настройки соперника&#39;&#39;
-    &lt;table class=&quot;inputs&quot;&gt;
-      &lt;tr&gt;&lt;td&gt;Имя:&lt;/td&gt;&lt;td&gt;&lt;&lt;textbox &quot;$opponent.name&quot; $opponent.name&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;Техника:&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$opponent.technique&quot; 6&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;Разум:&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$opponent.mind&quot; 5&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;Физика:&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$opponent.physique&quot; 6&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;Эмоции:&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$opponent.emotion&quot; 5&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;Подача:&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$opponent.serve&quot; 4&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;
-    &#39;&#39;Логирование&#39;&#39;
+    &lt;div class=&quot;players&quot;&gt;
+      &lt;div class=&quot;player&quot;&gt;
+        &#39;&#39;Игрок&#39;&#39;
+        &lt;table class=&quot;inputs&quot;&gt;
+          &lt;tr&gt;&lt;td&gt;Имя&lt;/td&gt;&lt;td&gt;&lt;&lt;textbox &quot;$player.name&quot; $player.name&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Тех&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$player.technique&quot; 5&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Раз&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$player.mind&quot; 5&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Физ&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$player.physique&quot; 5&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Эмо&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$player.emotion&quot; 5&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Под&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$player.serve&quot; 4&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
+        &lt;/table&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;player&quot;&gt;
+        &#39;&#39;Соперник&#39;&#39;
+        &lt;table class=&quot;inputs&quot;&gt;
+          &lt;tr&gt;&lt;td&gt;Имя&lt;/td&gt;&lt;td&gt;&lt;&lt;textbox &quot;$opponent.name&quot; $opponent.name&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Тех&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$opponent.technique&quot; 6&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Раз&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$opponent.mind&quot; 5&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Физ&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$opponent.physique&quot; 6&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Эмо&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$opponent.emotion&quot; 5&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Под&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$opponent.serve&quot; 4&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
+        &lt;/table&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
     &lt;div class=&quot;checks&quot;&gt;
       &lt;label&gt;&lt;&lt;checkbox &quot;$logMatch&quot; false true autocheck&gt;&gt; Матч&lt;/label&gt;
       &lt;label&gt;&lt;&lt;checkbox &quot;$logGame&quot; false true autocheck&gt;&gt; Гейм&lt;/label&gt;

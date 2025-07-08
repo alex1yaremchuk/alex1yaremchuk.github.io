@@ -253,7 +253,7 @@ var engine = (() => {
       }
     }
     toHtml() {
-      return this.logs.join("\n");
+      return this.logs.join("");
     }
   };
   var MultiLogger = class {

@@ -24,6 +24,7 @@
 <<set $logDebug to true>>
 <<set $winner to "">>
 <<set $htmlLog to "">>
+<<run loadSettings()>>
 
 
 :: Header [header] {"position":"475,25","size":"100,100"}
@@ -64,25 +65,30 @@
 :: Додзё {"position":"925,150","size":"100,100"}
 <div class="layout">
   <div class="config">
-    ''Настройки игрока''
-    <table class="inputs">
-      <tr><td>Имя:</td><td><<textbox "$player.name" $player.name>></td></tr>
-      <tr><td>Техника:</td><td><<numberbox "$player.technique" 5>></td></tr>
-      <tr><td>Разум:</td><td><<numberbox "$player.mind" 5>></td></tr>
-      <tr><td>Физика:</td><td><<numberbox "$player.physique" 5>></td></tr>
-      <tr><td>Эмоции:</td><td><<numberbox "$player.emotion" 5>></td></tr>
-      <tr><td>Подача:</td><td><<numberbox "$player.serve" 4>></td></tr>
-    </table>
-    ''Настройки соперника''
-    <table class="inputs">
-      <tr><td>Имя:</td><td><<textbox "$opponent.name" $opponent.name>></td></tr>
-      <tr><td>Техника:</td><td><<numberbox "$opponent.technique" 6>></td></tr>
-      <tr><td>Разум:</td><td><<numberbox "$opponent.mind" 5>></td></tr>
-      <tr><td>Физика:</td><td><<numberbox "$opponent.physique" 6>></td></tr>
-      <tr><td>Эмоции:</td><td><<numberbox "$opponent.emotion" 5>></td></tr>
-      <tr><td>Подача:</td><td><<numberbox "$opponent.serve" 4>></td></tr>
-    </table>
-    ''Логирование''
+    <div class="players">
+      <div class="player">
+        ''Игрок''
+        <table class="inputs">
+          <tr><td>Имя</td><td><<textbox "$player.name" $player.name>></td></tr>
+          <tr><td>Тех</td><td><<numberbox "$player.technique" 5>></td></tr>
+          <tr><td>Раз</td><td><<numberbox "$player.mind" 5>></td></tr>
+          <tr><td>Физ</td><td><<numberbox "$player.physique" 5>></td></tr>
+          <tr><td>Эмо</td><td><<numberbox "$player.emotion" 5>></td></tr>
+          <tr><td>Под</td><td><<numberbox "$player.serve" 4>></td></tr>
+        </table>
+      </div>
+      <div class="player">
+        ''Соперник''
+        <table class="inputs">
+          <tr><td>Имя</td><td><<textbox "$opponent.name" $opponent.name>></td></tr>
+          <tr><td>Тех</td><td><<numberbox "$opponent.technique" 6>></td></tr>
+          <tr><td>Раз</td><td><<numberbox "$opponent.mind" 5>></td></tr>
+          <tr><td>Физ</td><td><<numberbox "$opponent.physique" 6>></td></tr>
+          <tr><td>Эмо</td><td><<numberbox "$opponent.emotion" 5>></td></tr>
+          <tr><td>Под</td><td><<numberbox "$opponent.serve" 4>></td></tr>
+        </table>
+      </div>
+    </div>
     <div class="checks">
       <label><<checkbox "$logMatch" false true autocheck>> Матч</label>
       <label><<checkbox "$logGame" false true autocheck>> Гейм</label>
@@ -159,6 +165,28 @@ s.src = "engine.js";
 s.defer = true;
 document.head.appendChild(s);
 
+window.loadSettings = function () {
+  try {
+    const p = JSON.parse(localStorage.getItem("playerSettings"));
+    if (p) Object.assign(State.variables.player, p);
+    const o = JSON.parse(localStorage.getItem("opponentSettings"));
+    if (o) Object.assign(State.variables.opponent, o);
+  } catch (e) {}
+};
+
+window.saveSettings = function () {
+  try {
+    localStorage.setItem(
+      "playerSettings",
+      JSON.stringify(State.variables.player)
+    );
+    localStorage.setItem(
+      "opponentSettings",
+      JSON.stringify(State.variables.opponent)
+    );
+  } catch (e) {}
+};
+
 window.alice = {
   name: "Alice",
   technique: 5,
@@ -193,6 +221,7 @@ window.runMatch = function () {
   const result = window.engine.simulateMatch(playerA, playerB, logger);
   State.variables.htmlLog = logger.toHtml();
   State.variables.winner = result.winner.name;
+  saveSettings();
 };
 
 :: Story Stylesheet [stylesheet]
@@ -201,7 +230,7 @@ window.runMatch = function () {
   gap: 20px;
 }
 .config {
-  flex: 0 0 300px;
+  flex: 0 0 400px;
 }
 .output {
   flex: 1;
@@ -210,11 +239,19 @@ window.runMatch = function () {
   padding-right: 10px;
   text-align: right;
 }
-.inputs input[type="text"] {
-  width: 150px;
+.inputs input[type="text"],
+.inputs input[type="number"] {
+  width: 60px;
+}
+.players {
+  display: flex;
+  gap: 20px;
+}
+.player {
+  flex: 1;
 }
 .checks label {
-  display: block;
-  margin-bottom: 5px;
+  display: inline-block;
+  margin-right: 10px;
 }
 
