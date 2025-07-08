@@ -15,17 +15,31 @@
 }
 
 :: StoryInit
-<<set $player to $player or {"name":"Alice","technique":5,"mind":6,"physique":5,"emotion":5,"serve":4}>>
-<<set $opponent to $player or {"name":"Bob","technique":6,"mind":5,"physique":6,"emotion":5,"serve":4}>>
-<<run loadSettings()>>
-<<set $logMatch to true>>
-<<set $logGame to true>>
-<<set $logRally to true>>
-<<set $logRallyDetailed to true>>
-<<set $logDebug to true>>
-<<set $winner to "">>
-<<set $htmlLog to "">>
 
+<<run Config.saves.autosave = true>>
+<<run Config.saves.autoload = true>>
+
+<<if !$player>>
+  <<set $player = {
+    "name": "Alice",
+    "technique": 5,
+    "mind": 6,
+    "physique": 5,
+    "emotion": 5,
+    "serve": 4
+  }>>
+<</if>>
+
+<<if !$opponent>>
+  <<set $opponent = {
+    "name": "Bob",
+    "technique": 6,
+    "mind": 5,
+    "physique": 6,
+    "emotion": 5,
+    "serve": 4
+  }>>
+<</if>>
 
 :: Header [header] {"position":"475,25","size":"100,100"}
 (text-colour:(hsl:60,0.8039,0.5,0.55))[
@@ -70,22 +84,22 @@
         ''Игрок''
         <table class="inputs">
           <tr><td>Имя</td><td><<textbox "$player.name" $player.name>></td></tr>
-          <tr><td>Тех</td><td><<numberbox "$player.technique" 5>></td></tr>
-          <tr><td>Раз</td><td><<numberbox "$player.mind" 5>></td></tr>
-          <tr><td>Физ</td><td><<numberbox "$player.physique" 5>></td></tr>
-          <tr><td>Эмо</td><td><<numberbox "$player.emotion" 5>></td></tr>
-          <tr><td>Под</td><td><<numberbox "$player.serve" 4>></td></tr>
+          <tr><td>Тех</td><td><<numberbox "$player.technique" $player.technique  "min=1 max=10 step=1">></td></tr>
+          <tr><td>Раз</td><td><<numberbox "$player.mind" $player.mind>></td></tr>
+          <tr><td>Физ</td><td><<numberbox "$player.physique" $player.physique>></td></tr>
+          <tr><td>Эмо</td><td><<numberbox "$player.emotion" $player.emotion>></td></tr>
+          <tr><td>Под</td><td><<numberbox "$player.serve" $player.serve>></td></tr>
         </table>
       </div>
       <div class="player">
         ''Соперник''
         <table class="inputs">
           <tr><td>Имя</td><td><<textbox "$opponent.name" $opponent.name>></td></tr>
-          <tr><td>Тех</td><td><<numberbox "$opponent.technique" 6>></td></tr>
-          <tr><td>Раз</td><td><<numberbox "$opponent.mind" 5>></td></tr>
-          <tr><td>Физ</td><td><<numberbox "$opponent.physique" 6>></td></tr>
-          <tr><td>Эмо</td><td><<numberbox "$opponent.emotion" 5>></td></tr>
-          <tr><td>Под</td><td><<numberbox "$opponent.serve" 4>></td></tr>
+          <tr><td>Тех</td><td><<numberbox "$opponent.technique" $opponent.technique>></td></tr>
+          <tr><td>Раз</td><td><<numberbox "$opponent.mind" $opponent.mind>></td></tr>
+          <tr><td>Физ</td><td><<numberbox "$opponent.physique" $opponent.physique>></td></tr>
+          <tr><td>Эмо</td><td><<numberbox "$opponent.emotion" $opponent.emotion>></td></tr>
+          <tr><td>Под</td><td><<numberbox "$opponent.serve" $opponent.serve>></td></tr>
         </table>
       </div>
     </div>
@@ -165,55 +179,6 @@ s.src = "engine.js";
 s.defer = true;
 document.head.appendChild(s);
 
-window.loadSettings = function () {
-  try {
-    const p = JSON.parse(localStorage.getItem("playerSettings"));
-    const o = JSON.parse(localStorage.getItem("opponentSettings"));
-    console.log("[loadSettings] Загруженные player:", p);
-    console.log("[loadSettings] Загруженные opponent:", o);
-    if (p) Object.assign(State.variables.player, p);
-    if (o) Object.assign(State.variables.opponent, o);
-  } catch (e) {
-    console.error("[loadSettings] Ошибка загрузки:", e);
-  }
-};
-
-window.saveSettings = function () {
-  try {
-    localStorage.setItem(
-      "playerSettings",
-      JSON.stringify(State.variables.player)
-    );
-    localStorage.setItem(
-      "opponentSettings",
-      JSON.stringify(State.variables.opponent)
-    );
-    console.log("[saveSettings] Сохранено player:", State.variables.player);
-    console.log("[saveSettings] Сохранено opponent:", State.variables.opponent);
-  } catch (e) {
-    console.error("[saveSettings] Ошибка сохранения:", e);
-  }
-};
-
-
-window.alice = {
-  name: "Alice",
-  technique: 5,
-  mind: 6,
-  physique: 5,
-  emotion: 5,
-  serve: 4
-};
-
-window.bob = {
-  name: "Bob",
-  technique: 6,
-  mind: 5,
-  physique: 6,
-  emotion: 5,
-  serve: 4
-};
-
 window.runMatch = function () {
   const levels = new Set();
   if (State.variables.logMatch) levels.add("match");
@@ -230,9 +195,19 @@ window.runMatch = function () {
   const result = window.engine.simulateMatch(playerA, playerB, logger);
   State.variables.htmlLog = logger.toHtml();
   State.variables.winner = result.winner.name;
-  saveSettings();
   Engine.play(State.passage);
 };
+
+$(document).on("input", "input[type=number]", function () {
+  const min = 1;
+  const max = 10;
+  const val = parseInt(this.value, 10);
+  if (!isNaN(val)) {
+    if (val < min) this.value = min;
+    if (val > max) this.value = max;
+  }
+});
+
 
 :: Story Stylesheet [stylesheet]
 .layout {
