@@ -70,7 +70,7 @@ console.log("AUTOSAVE RAW", localStorage.getItem("Twine.autosave"));
         ''Игрок''
         <table class="inputs">
           <tr><td>Имя</td><td><<textbox "$player.name" $player.name>></td></tr>
-          <tr><td>Тех</td><td><<numberbox "$player.technique" $player.technique  "min=1 max=10 step=1">></td></tr>
+          <tr><td>Тех</td><td><<numberbox "$player.technique" $player.technique>></td></tr>
           <tr><td>Раз</td><td><<numberbox "$player.mind" $player.mind>></td></tr>
           <tr><td>Физ</td><td><<numberbox "$player.physique" $player.physique>></td></tr>
           <tr><td>Эмо</td><td><<numberbox "$player.emotion" $player.emotion>></td></tr>
