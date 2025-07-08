@@ -41,10 +41,10 @@
   }>>
 <</if>>
 
-<<script>>
-console.log("STORY INIT — player?", typeof $player, $player);
-console.log("AUTOSAVE RAW", localStorage.getItem("Twine.autosave"));
-<</script>>
+/* <<script>>
+// console.log("STORY INIT — player?", typeof $player, $player);
+// console.log("AUTOSAVE RAW", localStorage.getItem("Twine.autosave"));
+<</script>> */
 
 :: Header [header] {"position":"475,25","size":"100,100"}
 (text-colour:(hsl:60,0.8039,0.5,0.55))[
@@ -63,7 +63,6 @@ console.log("AUTOSAVE RAW", localStorage.getItem("Twine.autosave"));
 ]
 
 :: Додзё {"position":"925,150","size":"100,100"}
-<div class="layout">
   <div class="config">
     <div class="players">
       <div class="player">
@@ -88,27 +87,27 @@ console.log("AUTOSAVE RAW", localStorage.getItem("Twine.autosave"));
           <tr><td>Под</td><td><<numberbox "$opponent.serve" $opponent.serve>></td></tr>
         </table>
       </div>
-    </div>
-    <div class="checks">
-      <label><<checkbox "$logMatch" false true autocheck>> Матч</label>
-      <label><<checkbox "$logGame" false true autocheck>> Гейм</label>
-      <label><<checkbox "$logRally" false true autocheck>> Розыгрыш</label>
-      <label><<checkbox "$logRallyDetailed" false true autocheck>> Подробно</label>
-      <label><<checkbox "$logDebug" false true autocheck>> Отладка</label>
+      <div class="checks">
+        <label><<checkbox "$logMatch" false true autocheck>> Матч</label>
+        <label><<checkbox "$logGame" false true autocheck>> Гейм</label>
+        <label><<checkbox "$logRally" false true autocheck>> Розыгрыш</label>
+        <label><<checkbox "$logRallyDetailed" false true autocheck>> Подробно</label>
+        <label><<checkbox "$logDebug" false true autocheck>> Отладка</label>
+      </div>
     </div>
     <<button "Запустить матч">>
     <<run runMatch()>>
     <</button>>
   </div>
-  <div class="output">
-    <<if $winner>>
-    Победитель: <<= $winner>>
-    <</if>>
-    <<if $htmlLog>>
-    <div class="log"><<= $htmlLog>></div>
-    <</if>>
-  </div>
+<div class="output">
+  <<if $winner>>
+  Победитель: <<= $winner>>
+  <</if>>
+  <<if $htmlLog>>
+  <div class="log"><<= $htmlLog>></div>
+  <</if>>
 </div>
+
 
 
 

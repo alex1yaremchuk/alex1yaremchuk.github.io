@@ -195,10 +195,10 @@ $(document).on("input", "input[type=number]", function () {
   }&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-&lt;&lt;script&gt;&gt;
-console.log(&quot;STORY INIT — player?&quot;, typeof $player, $player);
-console.log(&quot;AUTOSAVE RAW&quot;, localStorage.getItem(&quot;Twine.autosave&quot;));
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Header" tags="header" position="475,25" size="100,100">(text-colour:(hsl:60,0.8039,0.5,0.55))[
+/* &lt;&lt;script&gt;&gt;
+// console.log(&quot;STORY INIT — player?&quot;, typeof $player, $player);
+// console.log(&quot;AUTOSAVE RAW&quot;, localStorage.getItem(&quot;Twine.autosave&quot;));
+&lt;&lt;/script&gt;&gt; */</tw-passagedata><tw-passagedata pid="2" name="Header" tags="header" position="475,25" size="100,100">(text-colour:(hsl:60,0.8039,0.5,0.55))[
 &lt;table&gt;
 &lt;tr&gt;&lt;td&gt;Время: &lt;/td&gt;&lt;td&gt;Год 1 из 10&lt;/td&gt;   
 		&lt;td&gt;Подача-прием: &lt;/td&gt;&lt;td&gt;1 из 10&lt;/td&gt;
@@ -211,8 +211,7 @@ console.log(&quot;AUTOSAVE RAW&quot;, localStorage.getItem(&quot;Twine.autosave&
 &lt;/tr&gt;
 &lt;/table&gt;
 
-]</tw-passagedata><tw-passagedata pid="3" name="Додзё" tags="" position="925,150" size="100,100">&lt;div class=&quot;layout&quot;&gt;
-  &lt;div class=&quot;config&quot;&gt;
+]</tw-passagedata><tw-passagedata pid="3" name="Додзё" tags="" position="925,150" size="100,100">&lt;div class=&quot;config&quot;&gt;
     &lt;div class=&quot;players&quot;&gt;
       &lt;div class=&quot;player&quot;&gt;
         &#39;&#39;Игрок&#39;&#39;
@@ -236,26 +235,25 @@ console.log(&quot;AUTOSAVE RAW&quot;, localStorage.getItem(&quot;Twine.autosave&
           &lt;tr&gt;&lt;td&gt;Под&lt;/td&gt;&lt;td&gt;&lt;&lt;numberbox &quot;$opponent.serve&quot; $opponent.serve&gt;&gt;&lt;/td&gt;&lt;/tr&gt;
         &lt;/table&gt;
       &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;checks&quot;&gt;
-      &lt;label&gt;&lt;&lt;checkbox &quot;$logMatch&quot; false true autocheck&gt;&gt; Матч&lt;/label&gt;
-      &lt;label&gt;&lt;&lt;checkbox &quot;$logGame&quot; false true autocheck&gt;&gt; Гейм&lt;/label&gt;
-      &lt;label&gt;&lt;&lt;checkbox &quot;$logRally&quot; false true autocheck&gt;&gt; Розыгрыш&lt;/label&gt;
-      &lt;label&gt;&lt;&lt;checkbox &quot;$logRallyDetailed&quot; false true autocheck&gt;&gt; Подробно&lt;/label&gt;
-      &lt;label&gt;&lt;&lt;checkbox &quot;$logDebug&quot; false true autocheck&gt;&gt; Отладка&lt;/label&gt;
+      &lt;div class=&quot;checks&quot;&gt;
+        &lt;label&gt;&lt;&lt;checkbox &quot;$logMatch&quot; false true autocheck&gt;&gt; Матч&lt;/label&gt;
+        &lt;label&gt;&lt;&lt;checkbox &quot;$logGame&quot; false true autocheck&gt;&gt; Гейм&lt;/label&gt;
+        &lt;label&gt;&lt;&lt;checkbox &quot;$logRally&quot; false true autocheck&gt;&gt; Розыгрыш&lt;/label&gt;
+        &lt;label&gt;&lt;&lt;checkbox &quot;$logRallyDetailed&quot; false true autocheck&gt;&gt; Подробно&lt;/label&gt;
+        &lt;label&gt;&lt;&lt;checkbox &quot;$logDebug&quot; false true autocheck&gt;&gt; Отладка&lt;/label&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
     &lt;&lt;button &quot;Запустить матч&quot;&gt;&gt;
     &lt;&lt;run runMatch()&gt;&gt;
     &lt;&lt;/button&gt;&gt;
   &lt;/div&gt;
-  &lt;div class=&quot;output&quot;&gt;
-    &lt;&lt;if $winner&gt;&gt;
-    Победитель: &lt;&lt;= $winner&gt;&gt;
-    &lt;&lt;/if&gt;&gt;
-    &lt;&lt;if $htmlLog&gt;&gt;
-    &lt;div class=&quot;log&quot;&gt;&lt;&lt;= $htmlLog&gt;&gt;&lt;/div&gt;
-    &lt;&lt;/if&gt;&gt;
-  &lt;/div&gt;
+&lt;div class=&quot;output&quot;&gt;
+  &lt;&lt;if $winner&gt;&gt;
+  Победитель: &lt;&lt;= $winner&gt;&gt;
+  &lt;&lt;/if&gt;&gt;
+  &lt;&lt;if $htmlLog&gt;&gt;
+  &lt;div class=&quot;log&quot;&gt;&lt;&lt;= $htmlLog&gt;&gt;&lt;/div&gt;
+  &lt;&lt;/if&gt;&gt;
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="4" name="Знакомство с дедушкой" tags="" position="725,475" size="100,100">(b4r:&quot;none&quot;,&quot;none&quot;,&quot;solid&quot;)+(b4r-colour:white,white,yellow)[Your Text Here]</tw-passagedata><tw-passagedata pid="5" name="Можайка.. Лохматые годы.." tags="mzh-start" position="725,150" size="100,100">&lt;!--Разбить эту комнату на несколько
  * заход в зал
  * посмотреть вокруг--&gt;
