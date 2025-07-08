@@ -120,7 +120,13 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 }
 .inputs input[type="text"],
 .inputs input[type="number"] {
-  width: 60px;
+  box-sizing: border-box;
+  width: 7ch;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0.2em 0.4em;
+  line-height: 1.2;
+  min-width: 0 !important;
 }
 .players {
   display: flex;
@@ -140,11 +146,16 @@ document.head.appendChild(s);
 window.loadSettings = function () {
   try {
     const p = JSON.parse(localStorage.getItem("playerSettings"));
-    if (p) Object.assign(State.variables.player, p);
     const o = JSON.parse(localStorage.getItem("opponentSettings"));
-    if (o) Object.assign(State.variables.opponent, o);
-  } catch (e) {}
+    console.log("[loadSettings] Загруженные player:", p);
+    console.log("[loadSettings] Загруженные opponent:", o);
+    if (p) State.variables.player = p;
+    if (o) State.variables.opponent = o;
+  } catch (e) {
+    console.error("[loadSettings] Ошибка загрузки:", e);
+  }
 };
+
 
 window.saveSettings = function () {
   try {
@@ -156,8 +167,13 @@ window.saveSettings = function () {
       "opponentSettings",
       JSON.stringify(State.variables.opponent)
     );
-  } catch (e) {}
+    console.log("[saveSettings] Сохранено player:", State.variables.player);
+    console.log("[saveSettings] Сохранено opponent:", State.variables.opponent);
+  } catch (e) {
+    console.error("[saveSettings] Ошибка сохранения:", e);
+  }
 };
+
 
 window.alice = {
   name: "Alice",
@@ -194,16 +210,40 @@ window.runMatch = function () {
   State.variables.htmlLog = logger.toHtml();
   State.variables.winner = result.winner.name;
   saveSettings();
-};</script><tw-tag name="mzh-start" color="yellow"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="" position="100,100" size="100,100">&lt;&lt;set $player to {&quot;name&quot;:&quot;Alice&quot;,&quot;technique&quot;:5,&quot;mind&quot;:6,&quot;physique&quot;:5,&quot;emotion&quot;:5,&quot;serve&quot;:4}&gt;&gt;
-&lt;&lt;set $opponent to {&quot;name&quot;:&quot;Bob&quot;,&quot;technique&quot;:6,&quot;mind&quot;:5,&quot;physique&quot;:6,&quot;emotion&quot;:5,&quot;serve&quot;:4}&gt;&gt;
-&lt;&lt;set $logMatch to true&gt;&gt;
-&lt;&lt;set $logGame to true&gt;&gt;
-&lt;&lt;set $logRally to true&gt;&gt;
-&lt;&lt;set $logRallyDetailed to true&gt;&gt;
-&lt;&lt;set $logDebug to true&gt;&gt;
-&lt;&lt;set $winner to &quot;&quot;&gt;&gt;
-&lt;&lt;set $htmlLog to &quot;&quot;&gt;&gt;
-&lt;&lt;run loadSettings()&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Header" tags="header" position="475,25" size="100,100">(text-colour:(hsl:60,0.8039,0.5,0.55))[
+  Engine.play(State.passage);
+};</script><tw-tag name="mzh-start" color="yellow"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="" position="100,100" size="100,100">&lt;&lt;if !$player&gt;&gt;
+  &lt;&lt;set $player = {
+    &quot;name&quot;: &quot;Alice&quot;,
+    &quot;technique&quot;: 5,
+    &quot;mind&quot;: 6,
+    &quot;physique&quot;: 5,
+    &quot;emotion&quot;: 5,
+    &quot;serve&quot;: 4
+  }&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;if !$opponent&gt;&gt;
+  &lt;&lt;set $opponent = {
+    &quot;name&quot;: &quot;Bob&quot;,
+    &quot;technique&quot;: 6,
+    &quot;mind&quot;: 5,
+    &quot;physique&quot;: 6,
+    &quot;emotion&quot;: 5,
+    &quot;serve&quot;: 4
+  }&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+
+&lt;&lt;set $logMatch = true&gt;&gt;
+&lt;&lt;set $logGame = true&gt;&gt;
+&lt;&lt;set $logRally = true&gt;&gt;
+&lt;&lt;set $logRallyDetailed = true&gt;&gt;
+&lt;&lt;set $logDebug = true&gt;&gt;
+&lt;&lt;set $winner = &quot;&quot;&gt;&gt;
+&lt;&lt;set $htmlLog = &quot;&quot;&gt;&gt;
+
+&lt;&lt;run setTimeout(() =&gt; {
+  window.loadSettings();
+  Engine.play(passage());
+}, 0)&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Header" tags="header" position="475,25" size="100,100">(text-colour:(hsl:60,0.8039,0.5,0.55))[
 &lt;table&gt;
 &lt;tr&gt;&lt;td&gt;Время: &lt;/td&gt;&lt;td&gt;Год 1 из 10&lt;/td&gt;   
 		&lt;td&gt;Подача-прием: &lt;/td&gt;&lt;td&gt;1 из 10&lt;/td&gt;

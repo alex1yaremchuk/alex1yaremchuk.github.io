@@ -15,16 +15,39 @@
 }
 
 :: StoryInit
-<<set $player to {"name":"Alice","technique":5,"mind":6,"physique":5,"emotion":5,"serve":4}>>
-<<set $opponent to {"name":"Bob","technique":6,"mind":5,"physique":6,"emotion":5,"serve":4}>>
-<<set $logMatch to true>>
-<<set $logGame to true>>
-<<set $logRally to true>>
-<<set $logRallyDetailed to true>>
-<<set $logDebug to true>>
-<<set $winner to "">>
-<<set $htmlLog to "">>
-<<run loadSettings()>>
+<<if !$player>>
+  <<set $player = {
+    "name": "Alice",
+    "technique": 5,
+    "mind": 6,
+    "physique": 5,
+    "emotion": 5,
+    "serve": 4
+  }>>
+<</if>>
+<<if !$opponent>>
+  <<set $opponent = {
+    "name": "Bob",
+    "technique": 6,
+    "mind": 5,
+    "physique": 6,
+    "emotion": 5,
+    "serve": 4
+  }>>
+<</if>>
+
+<<set $logMatch = true>>
+<<set $logGame = true>>
+<<set $logRally = true>>
+<<set $logRallyDetailed = true>>
+<<set $logDebug = true>>
+<<set $winner = "">>
+<<set $htmlLog = "">>
+
+<<run setTimeout(() => {
+  window.loadSettings();
+  Engine.play(passage());
+}, 0)>>
 
 
 :: Header [header] {"position":"475,25","size":"100,100"}
@@ -168,11 +191,16 @@ document.head.appendChild(s);
 window.loadSettings = function () {
   try {
     const p = JSON.parse(localStorage.getItem("playerSettings"));
-    if (p) Object.assign(State.variables.player, p);
     const o = JSON.parse(localStorage.getItem("opponentSettings"));
-    if (o) Object.assign(State.variables.opponent, o);
-  } catch (e) {}
+    console.log("[loadSettings] Загруженные player:", p);
+    console.log("[loadSettings] Загруженные opponent:", o);
+    if (p) State.variables.player = p;
+    if (o) State.variables.opponent = o;
+  } catch (e) {
+    console.error("[loadSettings] Ошибка загрузки:", e);
+  }
 };
+
 
 window.saveSettings = function () {
   try {
@@ -184,8 +212,13 @@ window.saveSettings = function () {
       "opponentSettings",
       JSON.stringify(State.variables.opponent)
     );
-  } catch (e) {}
+    console.log("[saveSettings] Сохранено player:", State.variables.player);
+    console.log("[saveSettings] Сохранено opponent:", State.variables.opponent);
+  } catch (e) {
+    console.error("[saveSettings] Ошибка сохранения:", e);
+  }
 };
+
 
 window.alice = {
   name: "Alice",
@@ -222,6 +255,7 @@ window.runMatch = function () {
   State.variables.htmlLog = logger.toHtml();
   State.variables.winner = result.winner.name;
   saveSettings();
+  Engine.play(State.passage);
 };
 
 :: Story Stylesheet [stylesheet]
@@ -241,7 +275,13 @@ window.runMatch = function () {
 }
 .inputs input[type="text"],
 .inputs input[type="number"] {
-  width: 60px;
+  box-sizing: border-box;
+  width: 7ch;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0.2em 0.4em;
+  line-height: 1.2;
+  min-width: 0 !important;
 }
 .players {
   display: flex;
