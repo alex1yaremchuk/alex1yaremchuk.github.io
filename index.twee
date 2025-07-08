@@ -15,39 +15,16 @@
 }
 
 :: StoryInit
-<<if !$player>>
-  <<set $player = {
-    "name": "Alice",
-    "technique": 5,
-    "mind": 6,
-    "physique": 5,
-    "emotion": 5,
-    "serve": 4
-  }>>
-<</if>>
-<<if !$opponent>>
-  <<set $opponent = {
-    "name": "Bob",
-    "technique": 6,
-    "mind": 5,
-    "physique": 6,
-    "emotion": 5,
-    "serve": 4
-  }>>
-<</if>>
-
-<<set $logMatch = true>>
-<<set $logGame = true>>
-<<set $logRally = true>>
-<<set $logRallyDetailed = true>>
-<<set $logDebug = true>>
-<<set $winner = "">>
-<<set $htmlLog = "">>
-
-<<run setTimeout(() => {
-  window.loadSettings();
-  Engine.play(passage());
-}, 0)>>
+<<set $player to $player or {"name":"Alice","technique":5,"mind":6,"physique":5,"emotion":5,"serve":4}>>
+<<set $opponent to $player or {"name":"Bob","technique":6,"mind":5,"physique":6,"emotion":5,"serve":4}>>
+<<run loadSettings()>>
+<<set $logMatch to true>>
+<<set $logGame to true>>
+<<set $logRally to true>>
+<<set $logRallyDetailed to true>>
+<<set $logDebug to true>>
+<<set $winner to "">>
+<<set $htmlLog to "">>
 
 
 :: Header [header] {"position":"475,25","size":"100,100"}
@@ -194,13 +171,12 @@ window.loadSettings = function () {
     const o = JSON.parse(localStorage.getItem("opponentSettings"));
     console.log("[loadSettings] Загруженные player:", p);
     console.log("[loadSettings] Загруженные opponent:", o);
-    if (p) State.variables.player = p;
-    if (o) State.variables.opponent = o;
+    if (p) Object.assign(State.variables.player, p);
+    if (o) Object.assign(State.variables.opponent, o);
   } catch (e) {
     console.error("[loadSettings] Ошибка загрузки:", e);
   }
 };
-
 
 window.saveSettings = function () {
   try {
