@@ -31,15 +31,15 @@ jobs:
       - name: Generate index.html
         run: .\tweego\tweego.exe index.twee -o index.html
 
-      - name: Commit build
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add index.html
-          git commit -m "Auto build index.html"
-          if ($LASTEXITCODE -ne 0) { exit 0 }
-          git push --no-verify
-          git status
+      # - name: Commit build
+      #   run: |
+      #     git config user.name "GitHub Actions"
+      #     git config user.email "actions@github.com"
+      #     git add index.html
+      #     git commit -m "Auto build index.html"
+      #     if ($LASTEXITCODE -ne 0) { exit 0 }
+      #     git push --no-verify
+      #     git status
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
