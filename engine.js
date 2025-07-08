@@ -23,6 +23,7 @@ var engine = (() => {
   __export(index_exports, {
     ConsoleLogger: () => ConsoleLogger,
     HtmlLogger: () => HtmlLogger,
+    MultiLogger: () => MultiLogger,
     simulateMatch: () => simulateMatch
   });
 
@@ -253,6 +254,17 @@ var engine = (() => {
     }
     toHtml() {
       return this.logs.join("\n");
+    }
+  };
+  var MultiLogger = class {
+    constructor(loggers, language) {
+      this.loggers = loggers;
+      this.language = language ?? this.loggers[0]?.language ?? "en";
+    }
+    log(message) {
+      for (const logger of this.loggers) {
+        logger.log(message);
+      }
     }
   };
   return __toCommonJS(index_exports);
