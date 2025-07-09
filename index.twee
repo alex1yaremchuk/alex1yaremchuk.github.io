@@ -131,6 +131,13 @@
 * [[Дмитрий Дубовенко]]
 * [[К Сереге Станкову]]
 <</if>>
+
+<<button "А ну его! Начать заново">>
+  <<run localStorage.clear()>>
+  <<run sessionStorage.clear()>>
+  <<run location.reload()>>
+<</button>>
+
 [[Додзё]]
 [[Турнир]]
 
@@ -327,7 +334,6 @@
 
 
 
-
 :: StoryScript [script]
 var s = document.createElement("script");
 s.src = "engine.js";
@@ -355,14 +361,29 @@ window.runMatch = function () {
 
 window.generateOpponent = function(total) {
   const stats = ["technique", "mind", "physique", "emotion"];
-  const opp = { name: "Бот " + Math.floor(Math.random()*1000), serve: 4 };
+  const opp = {
+    name: "Бот " + Math.floor(Math.random() * 1000),
+    serve: 4
+  };
+
+  const values = [0, 0, 0, 0];
   let remaining = total;
-  for (let i = 0; i < stats.length; i++) {
-    const max = remaining - (stats.length - i - 1);
-    const val = i === stats.length - 1 ? remaining : 1 + Math.floor(Math.random()*max);
-    opp[stats[i]] = val;
-    remaining -= val;
+
+  // Шаг 1: пока есть очки, раскидываем случайно по статам
+  while (remaining > 0) {
+    const i = Math.floor(Math.random() * 4); // случайный индекс
+    if (values[i] < 10) {
+      values[i]++;
+      remaining--;
+    }
   }
+
+  // Шаг 2: присваиваем значения
+  for (let i = 0; i < stats.length; i++) {
+    opp[stats[i]] = values[i];
+  }
+
+  // Шаг 3: формируем строку для вывода
   State.variables.opponentStats = `${opp.name}: Тех: ${opp.technique}, Опт: ${opp.mind}, Физ: ${opp.physique}, Эмо: ${opp.emotion}, Под: ${opp.serve}`;
 
   return opp;
