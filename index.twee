@@ -53,17 +53,22 @@
 :: Header [header] {"position":"475,25","size":"100,100"}
 (text-colour:(hsl:60,0.8039,0.5,0.55))[
 <table>
-<tr><td>Время: </td><td>Год 1 из 10</td>   
-		<td>Подача-прием: </td><td>1 из 10</td>
+<tr>
+  <td>Имя:</td><td><<=$player.name>></td>
+  <td>Время:</td><td><<=$time>></td>
 </tr>
-<tr><td>Здоровье: </td><td>1 из 10</td>
-		<td>Смеш: </td><td>1 из 10</td>
+<tr>
+  <td>Тех:</td><td><<=$player.technique>></td>
+  <td>Опт:</td><td><<=$player.mind>></td>
 </tr>
-<tr><td>Настрой: </td><td>Сверну горы</td>
-		<td>Теория: </td><td>1 из 10</td>
+<tr>
+  <td>Физ:</td><td><<=$player.physique>></td>
+  <td>Эмо:</td><td><<=$player.emotion>></td>
+</tr>
+<tr>
+  <td>Под:</td><td colspan="3"><<=$player.serve>></td>
 </tr>
 </table>
-
 ]
 
 :: Додзё {"position":"925,150","size":"100,100"}
@@ -113,6 +118,14 @@
 </div>
 
 :: Дом
+<<set $player = {
+  "name": "Ты",
+  "technique": 3,
+  "mind": 3,
+  "physique": 3,
+  "emotion": 3,
+  "serve": 3
+}>>
 Время: <<= $time>>
 <<if $time > 0>>
 * [[У Палыча]]
