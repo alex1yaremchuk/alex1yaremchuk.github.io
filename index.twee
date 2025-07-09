@@ -21,12 +21,12 @@
 
 <<if !$player>>
   <<set $player = {
-    "name": "Alice",
-    "technique": 5,
-    "mind": 6,
-    "physique": 5,
-    "emotion": 5,
-    "serve": 4
+    "name": "Ты",
+    "technique": 3,
+    "mind": 3,
+    "physique": 3,
+    "emotion": 3,
+    "serve": 3
   }>>
 <</if>>
 
@@ -50,28 +50,30 @@
 // console.log("AUTOSAVE RAW", localStorage.getItem("Twine.autosave"));
 <</script>> */
 
-:: Header [header] {"position":"475,25","size":"100,100"}
-(text-colour:(hsl:60,0.8039,0.5,0.55))[
-<table>
-<tr>
-  <td>Имя:</td><td><<=$player.name>></td>
-  <td>Время:</td><td><<=$time>></td>
-</tr>
-<tr>
-  <td>Тех:</td><td><<=$player.technique>></td>
-  <td>Опт:</td><td><<=$player.mind>></td>
-</tr>
-<tr>
-  <td>Физ:</td><td><<=$player.physique>></td>
-  <td>Эмо:</td><td><<=$player.emotion>></td>
-</tr>
-<tr>
-  <td>Под:</td><td colspan="3"><<=$player.serve>></td>
-</tr>
-</table>
-]
+:: Header [header]
+<div class="header-info">
+  <table>
+    <tr>
+      <td>Имя:</td><td><<=$player.name>></td>
+      <td>Время:</td><td><<=$time>></td>
+    </tr>
+    <tr>
+      <td>Тех:</td><td><<=$player.technique>></td>
+      <td>Опт:</td><td><<=$player.mind>></td>
+    </tr>
+    <tr>
+      <td>Физ:</td><td><<=$player.physique>></td>
+      <td>Эмо:</td><td><<=$player.emotion>></td>
+    </tr>
+    <tr>
+      <td>Под:</td><td colspan="3"><<=$player.serve>></td>
+    </tr>
+  </table>
+</div>
 
-:: Додзё {"position":"925,150","size":"100,100"}
+:: Додзё
+<<include "Header">>
+[[Дом]]
   <div class="config">
     <div class="players">
       <div class="player">
@@ -116,16 +118,11 @@
   <div class="log"><<= $htmlLog>></div>
   <</if>>
 </div>
+[[Дом]]
+
 
 :: Дом
-<<set $player = {
-  "name": "Ты",
-  "technique": 3,
-  "mind": 3,
-  "physique": 3,
-  "emotion": 3,
-  "serve": 3
-}>>
+<<include "Header">>
 Время: <<= $time>>
 <<if $time > 0>>
 * [[У Палыча]]
@@ -138,65 +135,194 @@
 [[Турнир]]
 
 :: У Палыча
+<<include "Header">>
 <<set $player.physique += 1>>
 <<set $time -= 1>>
 Тренировка у Палыча усилила твою Физуху.
 [[Дом]]
 
 :: К Сереге Станкову
+<<include "Header">>
 <<set $player.serve += 1>>
 <<set $time -= 1>>
 Серега научил тебя получше подавать.
 [[Дом]]
 
 :: Сидоров
+<<include "Header">>
 <<set $player.technique += 1>>
 <<set $time -= 1>>
 Сидоров помог улучшить Технику.
 [[Дом]]
 
 :: Антон Иванов
+<<include "Header">>
 <<set $player.mind += 1>>
 <<set $time -= 1>>
 Ты стал умнее после беседы с Антоном Ивановым.
 [[Дом]]
 
 :: Дмитрий Дубовенко
+<<include "Header">>
 <<set $player.emotion += 1>>
 <<set $time -= 1>>
 Дмитрий поднял твои Эмоции.
 [[Дом]]
 
 :: Турнир
+<<include "Header">>
 [[Раунд 1|Раунд1]]
 
 :: Раунд1
-<<set $opponent = generateOpponent(8)>>
+<<include "Header">>
+
+<<if !$opponent or !$opponent.generatedBy or $opponent.generatedBy != "Раунд1">>
+  <<set $opponent = generateOpponent(8)>>
+  <<set $opponent.generatedBy = "Раунд1">>
+  <<unset $winner>>
+  <<unset $htmlLog>>
+  <<unset $opponentStats>>
+<</if>>
+
 Матч первого раунда.
-<<button "Играть">><<run runMatch()>><</button>>
-<<if $winner>> Победитель: <<= $winner>> <</if>>
-[[Следующий|Раунд2]]
+<<set $opponentStats = $opponent.name + ": Тех: " + $opponent.technique + ", Опт: " + $opponent.mind + ", Физ: " + $opponent.physique + ", Эмо: " + $opponent.emotion + ", Под: " + $opponent.serve>>
+<<= $opponentStats>>
+
+<<if !$winner>>
+  <<button "Играть">>
+    <<set $logMatch = true>>
+    <<set $logGame = true>>
+    <<run runMatch()>>
+  <</button>>
+<</if>>
+
+<<if $winner>>
+  <<if $htmlLog>>
+    <div class="log"><<= $htmlLog>></div>
+  <</if>>
+  <<if $winner == $player.name>>
+    <<link "Следующий раунд → Раунд2">>
+      <<unset $opponent>>
+      <<goto "Раунд2">>
+    <</link>>
+  <<else>>
+    Ты проиграл в Раунде 1.
+    <<link "Домой">><<goto "Дом">><</link>>
+  <</if>>
+<</if>>
+
 
 :: Раунд2
-<<set $opponent = generateOpponent(16)>>
+<<include "Header">>
+
+<<if !$opponent or !$opponent.generatedBy or $opponent.generatedBy != "Раунд2">>
+  <<set $opponent = generateOpponent(16)>>
+  <<set $opponent.generatedBy = "Раунд2">>
+  <<unset $winner>>
+  <<unset $htmlLog>>
+  <<unset $opponentStats>>
+<</if>>
+
 Матч второго раунда.
-<<button "Играть">><<run runMatch()>><</button>>
-<<if $winner>> Победитель: <<= $winner>> <</if>>
-[[Далее|Раунд3]]
+<<set $opponentStats = $opponent.name + ": Тех: " + $opponent.technique + ", Опт: " + $opponent.mind + ", Физ: " + $opponent.physique + ", Эмо: " + $opponent.emotion + ", Под: " + $opponent.serve>>
+<<= $opponentStats>>
+
+<<if !$winner>>
+  <<button "Играть">>
+    <<set $logMatch = true>>
+    <<set $logGame = true>>
+    <<run runMatch()>>
+  <</button>>
+<</if>>
+
+<<if $winner>>
+  <<if $htmlLog>>
+    <div class="log"><<= $htmlLog>></div>
+  <</if>>
+  <<if $winner == $player.name>>
+    <<link "Следующий раунд → Раунд3">>
+      <<unset $opponent>>
+      <<goto "Раунд3">>
+    <</link>>
+  <<else>>
+    Ты проиграл в Раунде 2.
+    <<link "Домой">><<goto "Дом">><</link>>
+  <</if>>
+<</if>>
 
 :: Раунд3
-<<set $opponent = generateOpponent(24)>>
+<<include "Header">>
+
+<<if !$opponent or !$opponent.generatedBy or $opponent.generatedBy != "Раунд3">>
+  <<set $opponent = generateOpponent(24)>>
+  <<set $opponent.generatedBy = "Раунд3">>
+  <<unset $winner>>
+  <<unset $htmlLog>>
+  <<unset $opponentStats>>
+<</if>>
+
 Третий раунд турнира.
-<<button "Играть">><<run runMatch()>><</button>>
-<<if $winner>> Победитель: <<= $winner>> <</if>>
-[[Финал|Раунд4]]
+<<set $opponentStats = $opponent.name + ": Тех: " + $opponent.technique + ", Опт: " + $opponent.mind + ", Физ: " + $opponent.physique + ", Эмо: " + $opponent.emotion + ", Под: " + $opponent.serve>>
+<<= $opponentStats>>
+
+<<if !$winner>>
+  <<button "Играть">>
+    <<set $logMatch = true>>
+    <<set $logGame = true>>
+    <<run runMatch()>>
+  <</button>>
+<</if>>
+
+<<if $winner>>
+  <<if $htmlLog>>
+    <div class="log"><<= $htmlLog>></div>
+  <</if>>
+  <<if $winner == $player.name>>
+    <<link "Финал → Раунд4">>
+      <<unset $opponent>>
+      <<goto "Раунд4">>
+    <</link>>
+  <<else>>
+    Ты проиграл в Раунде 3.
+    <<link "Домой">><<goto "Дом">><</link>>
+  <</if>>
+<</if>>
 
 :: Раунд4
-<<set $opponent = generateOpponent(32)>>
+<<include "Header">>
+
+<<if !$opponent or !$opponent.generatedBy or $opponent.generatedBy != "Раунд4">>
+  <<set $opponent = generateOpponent(32)>>
+  <<set $opponent.generatedBy = "Раунд4">>
+  <<unset $winner>>
+  <<unset $htmlLog>>
+  <<unset $opponentStats>>
+<</if>>
+
 Финальный матч турнира.
-<<button "Играть">><<run runMatch()>><</button>>
-<<if $winner>> Победитель: <<= $winner>> <</if>>
-[[Дом]]
+<<set $opponentStats = $opponent.name + ": Тех: " + $opponent.technique + ", Опт: " + $opponent.mind + ", Физ: " + $opponent.physique + ", Эмо: " + $opponent.emotion + ", Под: " + $opponent.serve>>
+<<= $opponentStats>>
+
+<<if !$winner>>
+  <<button "Играть">>
+    <<set $logMatch = true>>
+    <<set $logGame = true>>
+    <<run runMatch()>>
+  <</button>>
+<</if>>
+
+<<if $winner>>
+  <<if $htmlLog>>
+    <div class="log"><<= $htmlLog>></div>
+  <</if>>
+  <<if $winner == $player.name>>
+    Поздравляем! Ты победил в турнире!
+    <<link "Домой">><<goto "Дом">><</link>>
+  <<else>>
+    Ты проиграл в финале.
+    <<link "Домой">><<goto "Дом">><</link>>
+  <</if>>
+<</if>>
 
 
 
@@ -237,6 +363,8 @@ window.generateOpponent = function(total) {
     opp[stats[i]] = val;
     remaining -= val;
   }
+  State.variables.opponentStats = `${opp.name}: Тех: ${opp.technique}, Опт: ${opp.mind}, Физ: ${opp.physique}, Эмо: ${opp.emotion}, Под: ${opp.serve}`;
+
   return opp;
 };
 
@@ -288,3 +416,8 @@ $(document).on("input", "input[type=number]", function () {
   margin-right: 10px;
 }
 
+.header-info {
+  color: hsl(60, 100%, 70%);
+  opacity: 0.9;
+  font-size: 0.95em;
+}
